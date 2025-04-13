@@ -48,35 +48,24 @@
   </form>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const form = document.getElementById("feedbackForm");
-    form.addEventListener("submit", function (e) {
-      e.preventDefault(); // Stop default form submission
+document.getElementById('feedbackForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
 
-      const formData = new FormData(form);
+  const formData = {
+    name: this.name.value,
+    email: this.email.value,
+    message: this.message.value
+  };
 
-      fetch("/submit_feedback", {
-        method: "POST",
-        body: formData
-      })
-      .then(response => response.json())
-      .then(data => {
-        const msg = document.getElementById("responseMessage");
-        if (data.status === "success") {
-          msg.style.color = "green";
-          msg.textContent = data.message;
-          form.reset();
-        } else {
-          msg.style.color = "red";
-          msg.textContent = data.message;
-        }
-      })
-      .catch(error => {
-        console.error("Error submitting feedback:", error);
-        document.getElementById("responseMessage").textContent = "An error occurred.";
-      });
-    });
+  const res = await fetch('/submit-feedback', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(formData)
   });
+
+  const result = await res.json();
+  alert(result.status === 'success' ? 'Feedback submitted!' : 'Failed to submit.');
+});
 </script>
 
 </body>
