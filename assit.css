@@ -1,0 +1,207 @@
+/* blog.css */
+
+/* Background and Base Layout */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: url('../images/paper-texture.jpg') no-repeat center center fixed;
+    background-size: cover;
+    color: #2c2c2c;
+}
+
+@keyframes rainbow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+
+/* Header Section */
+header, footer {
+    background-color: #d4a373;
+    color: white;
+    padding: 30px;
+    text-align: center;
+    font-family: "Lucida Handwriting", cursive;
+    font-size: 25px;
+}
+
+header img {
+    height: 200px;
+    width: auto;
+}
+/* Container for logo and title */
+.logo-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
+}
+
+/* Logo style */
+.logo {
+  height: 300px;
+  width: 100px;
+  border-radius:100%;
+  /*object-fit: cover;    Ensures image fills the oval nicely */
+  border: 2px solid #ccc; /* Optional: adds a nice border */
+}
+
+header h1 {
+   ext-shadow: 1px 1px 2px #000;
+   font-size: 36px;
+}
+
+/* Main Blog Content */
+body {
+  font-family: 'Georgia', serif;
+  margin: 0;
+  background-color: #fefae0;
+  color: #333;
+}
+
+.blog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #6a994e;
+  padding: 10px 20px;
+  color: white;
+}
+
+.logo {
+  height: 100px;
+}
+
+.blog-main {
+  padding: 20px;
+  max-width: 900px;
+  margin: auto;
+}
+
+.search-bar {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.search-bar input {
+  padding: 8px;
+  width: 60%;
+  font-size: 16px;
+}
+
+.search-bar button {
+  padding: 8px 12px;
+  background-color: #386641;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.featured-post {
+  background-color: #d4a373;
+  color: white;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.tags {
+  margin: 10px 0;
+}
+
+.tags span {
+  background-color: #faedcd;
+  color: #bc6c25;
+  padding: 5px 10px;
+  border-radius: 4px;
+  margin-right: 5px;
+  font-size: 14px;
+}
+
+.blog-post {
+  background-color: #fff;
+  padding: 20px;
+  margin-bottom: 15px;
+  border-left: 5px solid #bc6c25;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.blog-summary {
+  color: #555;
+}
+
+.blog-meta {
+  font-size: 14px;
+  color: #888;
+}
+
+.read-more {
+  color: #bc6c25;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.read-more:hover {
+  text-decoration: underline;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 15px;
+    font-size: 16px;
+    color: #ffffff;
+    border-top: 2px solid #ccc;
+    margin-top: 40px;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.back-home {
+    display: block;
+    width: fit-content; /* sirf content ke size ka width */
+    background-color: #ffffff;
+    color: #000000;
+    padding: 8px 14px;
+    text-decoration: none;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-weight: bold;
+    margin-left: 20px;   /* left se thoda gap */
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+
+.back-home:hover {
+    background-color: #e0e0e0;
+}
+
+.back-button {
+  display: inline-block;
+  margin: 20px auto;
+  padding: 10px 20px;
+  background-color: #d4a373;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 5px;
+  font-family: 'Segoe UI', sans-serif;
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+  transition: background-color 0.3s;
+}
+
+.back-button:hover {
+  background-color: #bc6c25;
+}
+
+
+/* Now correctly defined outside of the hover block */
+.content {
+  width: 70%;              /* Or use 800px for fixed width */
+  margin: 0 auto;          /* This will center the block horizontally */
+  padding: 30px;
+  background-color: #ffffff;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  border-radius: 8px;
+}
