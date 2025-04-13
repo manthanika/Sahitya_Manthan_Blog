@@ -1,78 +1,91 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Feedback Form</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      padding: 30px;
+      background: #f0f0f0;
+      padding: 20px;
     }
-
-    form {
+    .form-container {
+      background: #fff;
+      padding: 20px;
       max-width: 400px;
       margin: auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      border-radius: 10px;
     }
-
-    input, textarea {
+    .form-container h2 {
+      text-align: center;
+    }
+    .form-container input,
+    .form-container textarea {
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    .form-container button {
       width: 100%;
       padding: 10px;
-      margin: 10px 0;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-
-    button {
-      background-color: #28a745;
+      background-color: #007BFF;
       color: white;
-      padding: 10px;
       border: none;
+      border-radius: 6px;
       cursor: pointer;
-      border-radius: 5px;
     }
-
-    #responseMessage {
-      margin-top: 15px;
-      font-weight: bold;
+    .form-container button:hover {
+      background-color: #0056b3;
     }
   </style>
 </head>
 <body>
-  <form id="contact-form">
-  <input type="text" name="name" placeholder="Your Name" required>
-  <input type="email" name="email" placeholder="Your Email" required>
-  <textarea name="message" placeholder="Your Message" required></textarea>
-  <button type="submit">Send</button>
-</form>
+  <div class="form-container">
+    <h2>Send Feedback</h2>
+    <form id="contact-form">
+      <input type="text" name="name" placeholder="Your Name" required />
+      <input type="email" name="email" placeholder="Your Email" required />
+      <textarea name="message" placeholder="Your Message" rows="4" required></textarea>
+      <button type="submit">Submit</button>
+    </form>
+  </div>
 
-<script>
-  document.getElementById('contact-form').addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    const formData = new FormData(this);
-    const data = {
-      name: formData.get("name"),
-      email: formData.get("email"),
-      message: formData.get("message")
-    };
+  <script>
+    document.getElementById('contact-form').addEventListener('submit', function(e) {
+      e.preventDefault();
 
-    fetch("https://script.google.com/macros/s/AKfycbx7rwKG_V2XTP0tVuCVjHWtwlyb3dM_k3GnzvSPNQVEB--yOy_1cXYUodtBK4TuXzMIUA/exec", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(data)
-    })
-    .then(res => res.json())
-    .then(response => {
-      alert("Message sent successfully!");
-      document.getElementById('contact-form').reset();
-    })
-    .catch(error => {
-      console.error("Error!", error.message);
+      const form = e.target;
+      const data = {
+        name: form.name.value,
+        email: form.email.value,
+        message: form.message.value
+      };
+
+      fetch("https://script.google.com/macros/s/AKfycbx7rwKG_V2XTP0tVuCVjHWtwlyb3dM_k3GnzvSPNQVEB--yOy_1cXYUodtBK4TuXzMIUA/exec", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+      })
+      .then(response => response.json())
+      .then(result => {
+        if (result.status === "success") {
+          alert("Message sent successfully!");
+          form.reset();
+        } else {
+          alert("Failed to send message.");
+        }
+      })
+      .catch(error => {
+        console.error("Error:", error);
+        alert("An error occurred!");
+      });
     });
-  });
-</script>
+  </script>
 </body>
 </html>
