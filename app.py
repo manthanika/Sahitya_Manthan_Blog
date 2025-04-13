@@ -4,7 +4,7 @@ import requests
 app = Flask(__name__)
 
 # Replace this with your Apps Script deployment URL
-GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzplB3EQDCcbmyLkE3xcz5IE8odU4_FcRNSIcmrBBwy_skizYHlOLbLJngpuKkZqV2ZwA/exec'
+GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx7rwKG_V2XTP0tVuCVjHWtwlyb3dM_k3GnzvSPNQVEB--yOy_1cXYUodtBK4TuXzMIUA/exec'
 
 @app.route('/submit-feedback', methods=['POST'])
 def submit_feedback():
