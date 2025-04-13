@@ -70,40 +70,13 @@
         <h2 style="text-align:center;">📚 Guest Blogs from Our Readers</h2>
       </div>
     </div>
-
     <div class="right-section">
       <h2>📩 Feedback</h2>
       <iframe src="contact.html" frameborder="0" class="feedback-frame"></iframe>
     </div>
   </main>
-
   <footer class="blog-footer">
     <p>&copy; 2025 Manthanika | All rights reserved | Designed by Aanish Bhargava</p>
   </footer>
-
-  <script>
-    fetch("https://script.google.com/macros/s/AKfycbz9RtC8pgOivaV4BZY0NG5cn85n4HwbDk-Z2waEVXk/dev")
-      .then(response => response.json())
-      .then(data => {
-        const container = document.getElementById('community-blogs');
-        data.forEach(entry => {
-          if (entry["Approved"] === "Yes" || entry["Approved"] === "Option 1") {
-            const blogHTML = `
-              <div class="blog-post">
-                <h3>${entry["Blog Title"] || "Untitled"}</h3>
-                <p><strong>Author:</strong> ${entry["Name"] || "Anonymous"}</p>
-                <p>${entry["Blog Content"] || "No content available."}</p>
-                <hr>
-              </div>
-            `;
-            container.innerHTML += blogHTML;
-          }
-        });
-      })
-      .catch(error => {
-        console.error("Error loading blogs:", error);
-      });
-  </script>
-
 </body>
 </html>
