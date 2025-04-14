@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login - Manthan Blog</title>
+  <link rel="stylesheet" href="blog.css">
+  <style>
+    .login-form {
+      max-width: 400px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+  <div class="logo-container">
+    <img src="logo.png" alt="Manthan Logo" class="logo">
+    <h1 class="blog-title">Manthan  : Sahitya se Jeevan Tak</h1>
+    <h1 style="font-size: 25px;">(मंथन: साहित्य से जीवन तक)</h1>
+  </div>
+</header>
+<nav class="nav-tabs">
+  <a href="index.html">Home</a>
+  <a href="contact.html">Contact</a>
+  <a href="archive.html">Archive</a>
+  <a href="login.html">Login</a>
+</nav>
+  
+  <main>
+    <div class="login-form">
+      <h2>🔐 Login</h2>
+      <form id="loginForm">
+        <input type="email" name="email" placeholder="Email" required />
+        <input type="password" name="password" placeholder="Password" required />
+        <button type="submit">Login</button>
+        <p id="loginMessage"></p>
+      </form>
+    </div>
+  </main>
+<footer class="blog-footer">
+    <p>&copy; 2025 Manthanika | All rights reserved | Designed by Aanish Bhargava</p>
+  </footer>
+  <script src="script.js"></script>
+</body>
+</html>

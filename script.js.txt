@@ -1,0 +1,69 @@
+// script.js
+document.addEventListener("DOMContentLoaded", function () {
+  // Like button
+  document.querySelectorAll(".like-btn").forEach(button => {
+    button.addEventListener("click", function () {
+      const blogId = this.getAttribute("data-blog-id");
+      sendToGoogleSheet("Likes", { blogId, action: "like" });
+      const countSpan = this.querySelector(".like-count");
+      countSpan.textContent = parseInt(countSpan.textContent) + 1;
+    });
+  });
+
+  // Dislike button
+  document.querySelectorAll(".dislike-btn").forEach(button => {
+    button.addEventListener("click", function () {
+      const blogId = this.getAttribute("data-blog-id");
+      sendToGoogleSheet("Likes", { blogId, action: "dislike" });
+      const countSpan = this.querySelector(".dislike-count");
+      countSpan.textContent = parseInt(countSpan.textContent) + 1;
+    });
+  });
+
+  // Comment toggle
+  document.querySelectorAll(".comment-toggle").forEach(button => {
+    button.addEventListener("click", function () {
+      const commentSection = this.parentElement.querySelector(".comment-section");
+      commentSection.style.display = commentSection.style.display === "none" ? "block" : "none";
+    });
+  });
+
+  // Comment submit
+  document.querySelectorAll(".comment-submit").forEach(button => {
+    button.addEventListener("click", function () {
+      const blogId = this.getAttribute("data-blog-id");
+      const commentInput = this.parentElement.querySelector(".comment-input");
+      const comment = commentInput.value.trim();
+      if (comment) {
+        sendToGoogleSheet("Comments", { blogId, comment });
+        commentInput.value = "";
+        alert("Comment submitted!");
+      }
+    });
+  });
+
+  // Google Sheets integration
+  function sendToGoogleSheet(sheetType, data) {
+    const scriptURL = "YOUR_GOOGLE_SCRIPT_URL"; // Tumhara Google Apps Script URL
+    fetch(scriptURL, {
+      method: "POST",
+      body: JSON.stringify({ sheetType, ...data }),
+      headers: { "Content-Type": "application/json" },
+    })
+      .then(response => response.json())
+      .then(data => console.log("Success:", data))
+      .catch(error => console.error("Error:", error));
+  }
+});
+// script.js mein add karo
+document.getElementById("loginForm")?.addEventListener("submit", function (e) {
+  e.preventDefault();
+  const formData = new FormData(this);
+  const data = {
+    email: formData.get("email"),
+    password: formData.get("password"),
+    sheetType: "Logins",
+  };
+  sendToGoogleSheet("Logins", data);
+  document.getElementById("loginMessage").textContent = "Login recorded!";
+});
