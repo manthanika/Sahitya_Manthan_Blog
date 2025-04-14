@@ -5,11 +5,24 @@
   <title>नई पीढ़ी और प्रेमचंद: नैतिकता की पुनरावृत्ति</title>
   <link rel="stylesheet" href="assit.css">
 </head>
+<body class="blog-background blog-page">
+<header>
+  <div class="logo-container">
+    <img src="logo.png" alt="Manthan Logo" class="logo">
+    <h1 class="blog-title">Manthan  : Sahitya se Jeevan Tak</h1>
+    <h1 style="font-size: 25px;">(मंथन: साहित्य से जीवन तक)</h1>
+  </div>
+</header>
+<nav class="nav-tabs">
+  <a href="index.html">🏠Home</a>
+  <a href="contact.html">Contact</a>
+  <a href="archive.html">Archive</a>
+  <a href="login.html">Login</a>
+</nav>
 
-<body>
   <div class="blog-post">
      <div class="content">
-       <a href="index.html" class="back-button">← Back to 🏠</a>
+       
        <h1>नई पीढ़ी और प्रेमचंद: नैतिकता की पुनरावृत्ति</h1>
           <p><em>Published on: April 12, 2025</em></p>
           <hr>
@@ -33,7 +46,17 @@
 <p>इसलिए आवश्यक है कि हम प्रेमचंद को फिर से पढ़ें — उनके पात्रों से जुड़ें, उनके विचारों को आत्मसात करें और उनके द्वारा दर्शाए गए मार्ग पर विचार करें।</p>
 <p><strong>क्योंकि साहित्य केवल शब्दों का संग्रह नहीं, बल्कि जीवन का सार है।</strong></p>
 </p>
-<a href="index.html" class="back-button">← Back to 🏠</a>
+       <div class="interaction-buttons">
+     <button class="like-btn" data-blog-id="${entry["Blog Title"]}">👍 Like (<span class="like-count">0</span>)</button>
+     <button class="dislike-btn" data-blog-id="${entry["Blog Title"]}">👎 Dislike (<span class="dislike-count">0</span>)</button>
+     <button class="comment-toggle">💬 Comment</button>
+     <div class="comment-section" style="display:none;">
+      <textarea class="comment-input" placeholder="Add your comment..."></textarea>
+      <button class="comment-submit" data-blog-id="${entry["Blog Title"]}">Submit Comment</button>
+     </div>
+     </div>
+     <hr>
+<a href="index.html" class="back-button">← Back to 🏠Home</a>
   </div>
   </div>
 
