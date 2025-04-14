@@ -1,89 +1,59 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
   <title>Feedback Form</title>
+  <link rel="stylesheet" href="blog.css">
+
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f0f0f0;
-      padding: 20px;
-    }
-    .form-container {
-      background: #fff;
-      padding: 20px;
+
+    form {
       max-width: 400px;
       margin: auto;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      border-radius: 10px;
     }
-    .form-container h2 {
-      text-align: center;
-    }
-    .form-container input,
-    .form-container textarea {
+
+    input, textarea {
       width: 100%;
-      margin-bottom: 10px;
       padding: 10px;
+      margin: 10px 0;
       border: 1px solid #ccc;
-      border-radius: 6px;
+      border-radius: 5px;
     }
-    .form-container button {
-      width: 100%;
-      padding: 10px;
-      background-color: #007BFF;
+
+    button {
+      background-color: #28a745;
       color: white;
+      padding: 10px;
       border: none;
-      border-radius: 6px;
       cursor: pointer;
+      border-radius: 5px;
     }
-    .form-container button:hover {
-      background-color: #0056b3;
+
+    #responseMessage {
+      margin-top: 15px;
+      font-weight: bold;
     }
   </style>
 </head>
-<body>
-  <div class="form-container">
-    <form id="contact-form">
-      <input type="text" name="name" placeholder="Your Name" required />
-      <input type="email" name="email" placeholder="Your Email" required />
-      <textarea name="message" placeholder="Your Message" rows="4" required></textarea>
-      <button type="submit">Submit</button>
-    </form>
+<header>
+  <div class="logo-container">
+    <img src="logo.png" alt="Manthan Logo" class="logo">
+    <h1 class="blog-title">Manthan  : Sahitya se Jeevan Tak</h1>
+    <h1 style="font-size: 25px;">(मंथन: साहित्य से जीवन तक)</h1>
   </div>
+</header>
+<nav class="nav-tabs">
+  <a href="index.html">Home</a>
+  <a href="contact.html">Contact</a>
+  <a href="archive.html">Archive</a>
+  <a href="login.html">Login</a>
+</nav>
 
-<script>
-  const form = document.querySelector("form");
+<body>
 
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    const formData = new FormData(form);
-    const data = Object.fromEntries(formData);
-
-    try {
-      const response = await fetch("https://script.google.com/macros/s/AKfycbx7rwKG_V2XTP0tVuCVjHWtwlyb3dM_k3GnzvSPNQVEB--yOy_1cXYUodtBK4TuXzMIUA/exec", {
-        method: "POST",
-        body: JSON.stringify(data),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      const result = await response.json();
-
-      if (result.status === "success") {
-        alert("Thank you for your feedback!");
-        form.reset();
-      } else {
-        alert("Something went wrong!");
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      alert("An error occurred!");
-    }
-  });
-</script>
+<footer class="blog-footer">
+    <p>&copy; 2025 Manthanika | All rights reserved | Designed by Aanish Bhargava</p>
+  </footer>
 </body>
 </html>
