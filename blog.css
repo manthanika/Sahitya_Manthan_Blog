@@ -1,18 +1,27 @@
 /* blog.css */
 
-/* Background and Base Layout */
-body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-image: url('paper-texture.jpg'); 
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    
+html {
+  height: 100%;
 }
 
+body {
+  min-height: 100vh; /* Viewport height */
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-image: url('paper-texture.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  color: #333;
+}
+
+main, main.blog-main {
+  flex: 1 0 auto; /* Main content stretch karega */
+}
 /* Header Section */
 
 header {
@@ -27,6 +36,19 @@ header {
   border-radius: 0 0 12px 12px;
   font-family: "Lucida Handwriting", cursive;
   font-size: 25px;
+}
+/* Footer */
+
+ footer.blog-footer {
+  flex-shrink: 0;
+  background: rgba(255, 255, 255, 0.1); /* halka transparent white */
+  backdrop-filter: blur(10px);          /* blur effect for glass feel */
+  -webkit-backdrop-filter: blur(10px);  /* Safari ke liye */
+  border-top: 1px solid rgba(255, 255, 255, 0.2); /* halki si border */
+  color: #FAEBD7;;
+  text-align: center;
+  padding: 20px;
+  font-size: 14px;
 }
 
 /* Container for logo and title */
@@ -51,12 +73,6 @@ header h1 {
 }
 
 /* Main Blog Content */
-body {
-  font-family: 'Georgia', serif;
-  margin: 0;
-  background-color: #fefae0;
-  color: #333;
-}
 
 .blog-header {
   display: flex;
@@ -160,19 +176,6 @@ main.blog-main {
   text-decoration: underline;
 }
 
-/* Footer */
-
- footer.blog-footer {
-  background: rgba(255, 255, 255, 0.1); /* halka transparent white */
-  backdrop-filter: blur(10px);          /* blur effect for glass feel */
-  -webkit-backdrop-filter: blur(10px);  /* Safari ke liye */
-  border-top: 1px solid rgba(255, 255, 255, 0.2); /* halki si border */
-  color: #fff;
-  text-align: center;
-  padding: 20px;
-  font-size: 14px;
-}  
-
 .back-home {
     display: block;
     width: fit-content; /* sirf content ke size ka width */
@@ -204,6 +207,9 @@ main.blog-main {
   font-family: 'Segoe UI', sans-serif;
   box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
   transition: background-color 0.3s;
+  margin-left: 20px; 
+  text-align: left;
+  display: block;
 }
 
 .back-button:hover {
@@ -258,3 +264,10 @@ main.blog-main {
 .nav-tabs a:hover {
   text-decoration: underline;
 }
+.login-form {
+      max-width: 400px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 10px;
+      text-align: center;
