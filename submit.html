@@ -3,17 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <title>Submit Your Blog</title>
-  <link rel="stylesheet" href="blog.css">
+  <link rel="stylesheet" href="assit.css">
   <style>
     .form-container {
-      width: 90%;
-      margin: 0 auto;
-      padding: 20px;
-      background-color: #fff;
-      border-radius: 10px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
-.form-container1 {
       width: 90%;
       margin: 0 auto;
       padding: 20px;
@@ -29,16 +21,26 @@
     }
   </style>
 </head>
-
-<body>
-<div class="form-container1">
-   <a href="index.html" class="back-button">← Back to Home</a>
+<body class="blog-background blog-page">
+<header>
+  <div class="logo-container">
+    <img src="logo.png" alt="Manthan Logo" class="logo">
+    <h1 class="blog-title">Manthan  : Sahitya se Jeevan Tak</h1>
+    <h1 style="font-size: 25px;">(मंथन: साहित्य से जीवन तक)</h1>
+  </div>
+</header>
+<nav class="nav-tabs">
+  <a href="index.html">🏠Home</a>
+  <a href="contact.html">Contact</a>
+  <a href="archive.html">Archive</a>
+  <a href="login.html">Login</a>
+</nav>
 
   <div class="form-container">
-    <h2>✍️ Submit Your Blog</h2>
+    <!-- <h2>✍️ Submit Your Blog</h2> -->
     <div class="captcha-section">
     <p>Verify you're not a robot:</p>
-    <input type="text" id="captchaInput" placeholder="Enter 1234">
+    <input type="text" id="captchaInput" placeholder="Enter 4368">
     <button id="verifyCaptcha">Verify</button>
     <p id="captchaMessage"></p>
     <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfG3oSfDmaRQ_0z5SsN7biq1nlZmaJTO6cOahbXfr4q8YgYeA/viewform?embedded=true" frameborder="0" allowfullscreen>Loading…</iframe>
