@@ -1,35 +1,33 @@
 /* blog.css */
-
 /* Background and Base Layout */
 body {
     margin: 0;
+    padding: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: url('../images/paper-texture.jpg') no-repeat center center fixed;
+    background-image: url('paper-texture.jpg'); 
     background-size: cover;
-    color: #2c2c2c;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    
 }
-
-@keyframes rainbow {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
-
 
 /* Header Section */
-header, footer {
-    background-color: #d4a373;
-    color: white;
-    padding: 30px;
-    text-align: center;
-    font-family: "Lucida Handwriting", cursive;
-    font-size: 25px;
+
+header {
+  background: rgba(255, 255, 255, 0.1); /* transparent white */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  text-align: center;
+  padding: 20px;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  border-radius: 0 0 12px 12px;
+  font-family: "Lucida Handwriting", cursive;
+  font-size: 25px;
 }
 
-header img {
-    height: 200px;
-    width: auto;
-}
 /* Container for logo and title */
 .logo-container {
   display: flex;
@@ -40,11 +38,10 @@ header img {
 
 /* Logo style */
 .logo {
-  height: 300px;
-  width: 100px;
+  height: 150px;
+  width: 180px;
   border-radius:100%;
-  /*object-fit: cover;    Ensures image fills the oval nicely */
-  border: 2px solid #ccc; /* Optional: adds a nice border */
+ 
 }
 
 header h1 {
@@ -69,41 +66,17 @@ body {
   color: white;
 }
 
-.logo {
-  height: 100px;
-}
-
-.blog-main {
+.blog-post {
+  background-color: #fff;
   padding: 20px;
+  margin-bottom: 15px;
+  border-left: 5px solid #bc6c25;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  width: 90%;
   max-width: 900px;
-  margin: auto;
-}
-
-.search-bar {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.search-bar input {
-  padding: 8px;
-  width: 60%;
-  font-size: 16px;
-}
-
-.search-bar button {
-  padding: 8px 12px;
-  background-color: #386641;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
-
-.featured-post {
-  background-color: #d4a373;
-  color: white;
-  padding: 20px;
-  border-radius: 8px;
-  margin-bottom: 20px;
+  margin: 30px auto;
+  box-sizing: border-box;
 }
 
 .tags {
@@ -119,44 +92,19 @@ body {
   font-size: 14px;
 }
 
-.blog-post {
-  background-color: #fff;
-  padding: 20px;
-  margin-bottom: 15px;
-  border-left: 5px solid #bc6c25;
-  border-radius: 6px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-}
-
-.blog-summary {
-  color: #555;
-}
-
-.blog-meta {
-  font-size: 14px;
-  color: #888;
-}
-
-.read-more {
-  color: #bc6c25;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-.read-more:hover {
-  text-decoration: underline;
-}
 
 /* Footer */
-footer {
-    text-align: center;
-    padding: 15px;
-    font-size: 16px;
-    color: #ffffff;
-    border-top: 2px solid #ccc;
-    margin-top: 40px;
-    font-family: 'Segoe UI', sans-serif;
-}
+
+ footer.blog-footer {
+  background: rgba(255, 255, 255, 0.1); /* halka transparent white */
+  backdrop-filter: blur(10px);          /* blur effect for glass feel */
+  -webkit-backdrop-filter: blur(10px);  /* Safari ke liye */
+  border-top: 1px solid rgba(255, 255, 255, 0.2); /* halki si border */
+  color: #FAEBD7;;
+  text-align: center;
+  padding: 20px;
+  font-size: 14px;
+}  
 
 .back-home {
     display: block;
@@ -195,16 +143,6 @@ footer {
   background-color: #bc6c25;
 }
 
-
-/* Now correctly defined outside of the hover block */
-.content {
-  width: 70%;              /* Or use 800px for fixed width */
-  margin: 0 auto;          /* This will center the block horizontally */
-  padding: 30px;
-  background-color: #ffffff;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
-  border-radius: 8px;
-}
 
 
 .interaction-buttons {
@@ -252,4 +190,11 @@ footer {
 }
 .nav-tabs a:hover {
   text-decoration: underline;
+}
+.blog {
+  width: 90%;
+  max-width: 800px;
+  margin: 30px auto;
+  padding: 20px;
+  box-sizing: border-box;
 }
