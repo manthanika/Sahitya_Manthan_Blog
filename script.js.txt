@@ -43,18 +43,34 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // Google Sheets integration
-  function sendToGoogleSheet(sheetType, data) {
-    const scriptURL = "https://script.google.com/macros/s/AKfycbylT2n6GyiuVhidXFMATNYJ9spEQvA98ZURPBfZyWUU3C20acUlTbW2Na-LFDdYrasJ/exec"; // Tumhara Google Apps Script URL
-    fetch(scriptURL, {
-      method: "POST",
-      body: JSON.stringify({ sheetType, ...data }),
-      headers: { "Content-Type": "application/json" },
+function sendToGoogleSheet(sheetType, data) {
+  const scriptURL = "https://script.google.com/macros/s/AKfycbylT2n6GyiuVhidXFMATNYJ9spEQvA98ZURPBfZyWUU3C20acUlTbW2Na-LFDdYrasJ/exec";
+  const payload = { sheetType, ...data };
+  console.log("Sending payload:", payload); // Debug: Check kya data ja raha hai
+
+  fetch(scriptURL, {
+    method: "POST",
+    body: JSON.stringify(payload),
+    headers: { "Content-Type": "application/json" },
+    mode: "cors", // Try with cors
+    redirect: "follow", // Handle redirects if any
+  })
+    .then(response => {
+      console.log("Response status:", response.status); // Debug
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return response.json();
     })
-      .then(response => response.json())
-      .then(data => console.log("Success:", data))
-      .catch(error => console.error("Error:", error));
-  }
-});
+    .then(data => {
+      console.log("Success:", data);
+      return data; // For further handling if needed
+    })
+    .catch(error => {
+      console.error("Error sending to Google Sheet:", error);
+      throw error; // Propagate error for debugging
+    });
+}
 // script.js mein add karo
 document.getElementById("loginForm")?.addEventListener("submit", function (e) {
   e.preventDefault();
