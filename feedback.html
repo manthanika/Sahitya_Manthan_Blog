@@ -67,25 +67,27 @@
         message: formData.get("message") || "",
         sheetType: "Feedback",
       };
-      console.log("Sending feedback:", JSON.stringify(data)); // Improved logging
+      console.log("Sending feedback:", JSON.stringify(data));
 
-      const scriptURL = "https://script.google.com/macros/s/AKfycbyJ1kADVIb_hp4pvGIGbZC_6gK2tgcF2CtfnWxHNLVK4qh9RTirxY7fydgbxvzYPEoG/exec";
+      const scriptURL = "https://script.google.com/macros/s/AKfycbylT2n6GyiuVhidXFMATNYJ9spEQvA98ZURPBfZyWUU3C20acUlTbW2Na-LFDdYrasJ/exec";
 
       fetch(scriptURL, {
         method: "POST",
         body: JSON.stringify(data),
         headers: { "Content-Type": "application/json" },
-        mode: "cors",
+        // mode: "cors", // Comment out to test without CORS enforcement
         redirect: "follow",
       })
         .then(response => {
           console.log("Response status:", response.status);
+          console.log("Response headers:", [...response.headers.entries()]);
           if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
           }
           return response.json();
         })
         .then(data => {
+          console.log("Server response:", data);
           const msg = document.getElementById("responseMessage");
           if (!msg) {
             console.error("Error: responseMessage not found");
