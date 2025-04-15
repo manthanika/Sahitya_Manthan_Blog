@@ -1,12 +1,13 @@
-// script.js
 document.addEventListener("DOMContentLoaded", function () {
   // Like button
   document.querySelectorAll(".like-btn").forEach(button => {
     button.addEventListener("click", function () {
       const blogId = this.getAttribute("data-blog-id");
-      sendToGoogleSheet("Likes", { blogId, action: "like" });
-      const countSpan = this.querySelector(".like-count");
-      countSpan.textContent = parseInt(countSpan.textContent) + 1;
+      sendToGoogleSheet("Likes", { blogId, action: "like" })
+        .then(() => {
+          const countSpan = this.querySelector(".like-count");
+          countSpan.textContent = parseInt(countSpan.textContent) + 1;
+        });
     });
   });
 
@@ -14,9 +15,11 @@ document.addEventListener("DOMContentLoaded", function () {
   document.querySelectorAll(".dislike-btn").forEach(button => {
     button.addEventListener("click", function () {
       const blogId = this.getAttribute("data-blog-id");
-      sendToGoogleSheet("Likes", { blogId, action: "dislike" });
-      const countSpan = this.querySelector(".dislike-count");
-      countSpan.textContent = parseInt(countSpan.textContent) + 1;
+      sendToGoogleSheet("Likes", { blogId, action: "dislike" })
+        .then(() => {
+          const countSpan = this.querySelector(".dislike-count");
+          countSpan.textContent = parseInt(countSpan.textContent) + 1;
+        });
     });
   });
 
@@ -35,51 +38,57 @@ document.addEventListener("DOMContentLoaded", function () {
       const commentInput = this.parentElement.querySelector(".comment-input");
       const comment = commentInput.value.trim();
       if (comment) {
-        sendToGoogleSheet("Comments", { blogId, comment });
-        commentInput.value = "";
-        alert("Comment submitted!");
+        sendToGoogleSheet("Comments", { blogId, comment })
+          .then(() => {
+            commentInput.value = "";
+            alert("Comment submitted!");
+          });
       }
     });
   });
 
-  // Google Sheets integration
-function sendToGoogleSheet(sheetType, data) {
-  const scriptURL = "https://script.google.com/macros/s/AKfycbylT2n6GyiuVhidXFMATNYJ9spEQvA98ZURPBfZyWUU3C20acUlTbW2Na-LFDdYrasJ/exec";
-  const payload = { sheetType, ...data };
-  console.log("Sending payload:", payload); // Debug: Check kya data ja raha hai
+  // Login form
+  document.getElementById("loginForm")?.addEventListener("submit", function (e) {
+    e.preventDefault();
+    const formData = new FormData(this);
+    const data = {
+      email: formData.get("email"),
+      password: formData.get("password"),
+      sheetType: "Logins",
+    };
+    sendToGoogleSheet("Logins", data)
+      .then(() => {
+        document.getElementById("loginMessage").textContent = "Login recorded!";
+      });
+  });
 
-  fetch(scriptURL, {
-    method: "POST",
-    body: JSON.stringify(payload),
-    headers: { "Content-Type": "application/json" },
-    mode: "cors", // Try with cors
-    redirect: "follow", // Handle redirects if any
-  })
-    .then(response => {
-      console.log("Response status:", response.status); // Debug
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-      return response.json();
+  // Google Sheets integration
+  function sendToGoogleSheet(sheetType, data) {
+    const scriptURL = "https://script.google.com/macros/s/AKfycbylT2n6GyiuVhidXFMATNYJ9spEQvA98ZURPBfZyWUU3C20acUlTbW2Na-LFDdYrasJ/exec";
+    const payload = { sheetType, ...data };
+    console.log("Sending payload:", payload);
+
+    return fetch(scriptURL, {
+      method: "POST",
+      body: JSON.stringify(payload),
+      headers: { "Content-Type": "application/json" },
+      mode: "cors",
+      redirect: "follow",
     })
-    .then(data => {
-      console.log("Success:", data);
-      return data; // For further handling if needed
-    })
-    .catch(error => {
-      console.error("Error sending to Google Sheet:", error);
-      throw error; // Propagate error for debugging
-    });
-}
-// script.js mein add karo
-document.getElementById("loginForm")?.addEventListener("submit", function (e) {
-  e.preventDefault();
-  const formData = new FormData(this);
-  const data = {
-    email: formData.get("email"),
-    password: formData.get("password"),
-    sheetType: "Logins",
-  };
-  sendToGoogleSheet("Logins", data);
-  document.getElementById("loginMessage").textContent = "Login recorded!";
+      .then(response => {
+        console.log("Response status:", response.status);
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log("Success:", data);
+        return data;
+      })
+      .catch(error => {
+        console.error("Error sending to Google Sheet:", error);
+        throw error;
+      });
+  }
 });
