@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Google Sheets integration
   function sendToGoogleSheet(sheetType, data) {
-    const scriptURL = "https://script.google.com/macros/s/AKfycbylT2n6GyiuVhidXFMATNYJ9spEQvA98ZURPBfZyWUU3C20acUlTbW2Na-LFDdYrasJ/exec";
+    const scriptURL = "https://script.google.com/macros/s/AKfycbyJ1kADVIb_hp4pvGIGbZC_6gK2tgcF2CtfnWxHNLVK4qh9RTirxY7fydgbxvzYPEoG/exec";
     const payload = { sheetType, ...data };
     console.log("Sending payload:", payload);
 
