@@ -40,13 +40,15 @@
 </head>
 
 <body>
-  <form id="feedbackForm">
+  <main>
+    <form id="feedbackForm">
     <input type="text" name="name" placeholder="Your Name" required />
     <input type="email" name="email" placeholder="Your Email" required />
-    <textarea name="message" placeholder="Your Feedback" rows="5" required></textarea>
-    <button type="submit">Submit</button>
-    <div id="responseMessage"></div>
+    <textarea name="message" placeholder="Your Message" required></textarea>
+    <button type="submit">Submit Feedback</button>
   </form>
+  <p id="responseMessage"></p>
+  </main>
 
 <script>
   document.addEventListener("DOMContentLoaded", function () {
