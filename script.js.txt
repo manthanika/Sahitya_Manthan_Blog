@@ -7,7 +7,8 @@ document.addEventListener("DOMContentLoaded", function () {
         .then(() => {
           const countSpan = this.querySelector(".like-count");
           countSpan.textContent = parseInt(countSpan.textContent) + 1;
-        });
+        })
+        .catch(error => console.error("Like error:", error));
     });
   });
 
@@ -19,7 +20,8 @@ document.addEventListener("DOMContentLoaded", function () {
         .then(() => {
           const countSpan = this.querySelector(".dislike-count");
           countSpan.textContent = parseInt(countSpan.textContent) + 1;
-        });
+        })
+        .catch(error => console.error("Dislike error:", error));
     });
   });
 
@@ -42,7 +44,8 @@ document.addEventListener("DOMContentLoaded", function () {
           .then(() => {
             commentInput.value = "";
             alert("Comment submitted!");
-          });
+          })
+          .catch(error => console.error("Comment error:", error));
       }
     });
   });
@@ -59,55 +62,36 @@ document.addEventListener("DOMContentLoaded", function () {
     sendToGoogleSheet("Logins", data)
       .then(() => {
         document.getElementById("loginMessage").textContent = "Login recorded!";
-      });
+      })
+      .catch(error => console.error("Login error:", error));
   });
 
   // Google Sheets integration
- function loadBlogs() {
-  const scriptURL = "https://script.google.com/macros/s/AKfycbyJ1kADVIb_hp4pvGIGbZC_6gK2tgcF2CtfnWxHNLVK4qh9RTirxY7fydgbxvzYPEoG/exec";
-  fetch(scriptURL, {
-    method: "POST", // Adjust if GET is needed
-    headers: { "Content-Type": "application/json" },
-    mode: "cors",
-    redirect: "follow",
-  })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-      return response.json();
-    })
-    .then(data => {
-      console.log("Blogs loaded:", data);
-      // Process blogs
-    })
-    .catch(error => console.error("Error loading blogs:", error));
-}
-function sendToGoogleSheet(sheetType, data) {
-  const scriptURL = "https://script.google.com/macros/s/AKfycbyJ1kADVIb_hp4pvGIGbZC_6gK2tgcF2CtfnWxHNLVK4qh9RTirxY7fydgbxvzYPEoG/exec";
+  function sendToGoogleSheet(sheetType, data) {
+    const scriptURL = "/api/submit"; // Use Netlify proxy
+    const payload = { sheetType, ...data };
+    console.log("Sending payload:", JSON.stringify(payload));
 
-  // Add sheetType to data
-  const payload = { ...data, sheetType };
-
-  return fetch(scriptURL, {
-    method: "POST",
-    mode: "cors", // Google Apps Script requires CORS for client-side requests
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(payload),
-  })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      return response.json();
+    return fetch(scriptURL, {
+      method: "POST",
+      body: JSON.stringify(payload),
+      headers: { "Content-Type": "application/json" },
+      redirect: "follow",
     })
-    .then((responseData) => {
-      console.log("Success:", responseData);
-      return responseData;
-    })
-    .catch((error) => {
-      console.error("Error sending to Google Sheet:", error);
-    });
-}
+      .then(response => {
+        console.log("Response status:", response.status);
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log("Success:", data);
+        return data;
+      })
+      .catch(error => {
+        console.error("Error sending to Google Sheet:", error);
+        throw error;
+      });
+  }
+});
