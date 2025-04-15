@@ -93,28 +93,15 @@
      <button class="dislike-btn" data-blog-id="${entry["Blog Title"]}">👎 Dislike (<span class="dislike-count">0</span>)</button>
      <button class="comment-toggle">💬 Comment</button>
      <div class="comment-section" style="display:none;">
-      <textarea class="comment-input" placeholder="Add your comment..."></textarea>
-      <button class="comment-submit" data-blog-id="${entry["Blog Title"]}">Submit Comment</button>
+      <form class="comment-form">
+                <input type="text" class="comment-name" placeholder="Your Name" required><br>
+                <textarea class="comment-text" placeholder="Your Comment" required></textarea><br>
+                <button type="submit">Submit</button>
+            </form>
      </div>
      </div>
      <hr>
-  <section class="blog-content" data-id="blog1">
-    <div class="interactions">
-        <div class="like-dislike">
-            <button class="like-btn"><i class="fas fa-thumbs-up"></i>👍 Like <span class="like-count">0</span></button>
-            <button class="dislike-btn"><i class="fas fa-thumbs-down"></i>👎 Dislike<span class="dislike-count">0</span></button>
-        </div>
-        <div class="comments">
-            <h4>💬 Comment</h4>
-            <form class="comment-form">
-                <input type="text" class="comment-name" placeholder="Your Name" required>
-                <textarea class="comment-text" placeholder="Your Comment" required></textarea>
-                <button type="submit">Submit</button>
-            </form>
-            <ul class="comment-list"></ul>
-        </div>
-    </div>
-</section>
+
 <a href="index.html" class="back-button">← Back to 🏠Home</a>
   </div>
   </div>
