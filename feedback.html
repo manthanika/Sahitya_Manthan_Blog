@@ -60,13 +60,24 @@
         message: formData.get("message"),
         sheetType: "Feedback",
       };
+      console.log("Sending feedback:", data); // Debug
 
-      fetch("https://script.google.com/macros/s/AKfycbzHde02e_m2uEhCmqjk1cXSHC7EyntHdRoGz8gXukSFGOONcuIjSeIqkdvYxP5SqQ6G/exec", {
+      const scriptURL = "https://script.google.com/macros/s/AKfycbyJ1kADVIb_hp4pvGIGbZC_6gK2tgcF2CtfnWxHNLVK4qh9RTirxY7fydgbxvzYPEoG/exec";
+
+      fetch(scriptURL, {
         method: "POST",
         body: JSON.stringify(data),
         headers: { "Content-Type": "application/json" },
+        mode: "cors",
+        redirect: "follow",
       })
-        .then(response => response.json())
+        .then(response => {
+          console.log("Response status:", response.status); // Debug
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+          return response.json();
+        })
         .then(data => {
           const msg = document.getElementById("responseMessage");
           if (data.status === "success") {
@@ -75,16 +86,17 @@
             form.reset();
           } else {
             msg.style.color = "red";
-            msg.textContent = "Error submitting feedback.";
+            msg.textContent = data.message || "Error submitting feedback.";
           }
         })
         .catch(error => {
-          console.error("Error:", error);
-          document.getElementById("responseMessage").textContent = "An error occurred.";
+          console.error("Error submitting feedback:", error);
+          const msg = document.getElementById("responseMessage");
+          msg.style.color = "red";
+          msg.textContent = `Error: ${error.message}`;
         });
     });
   });
-
 </script>
 </body>
 </html>
