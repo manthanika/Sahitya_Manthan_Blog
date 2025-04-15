@@ -53,16 +53,21 @@
 <script>
   document.addEventListener("DOMContentLoaded", function () {
     const form = document.getElementById("feedbackForm");
+    if (!form) {
+      console.error("Error: feedbackForm not found");
+      return;
+    }
+
     form.addEventListener("submit", function (e) {
       e.preventDefault();
       const formData = new FormData(form);
       const data = {
-        name: formData.get("name"),
-        email: formData.get("email"),
-        message: formData.get("message"),
+        name: formData.get("name") || "",
+        email: formData.get("email") || "",
+        message: formData.get("message") || "",
         sheetType: "Feedback",
       };
-      console.log("Sending feedback:", data); // Debug
+      console.log("Sending feedback:", JSON.stringify(data)); // Improved logging
 
       const scriptURL = "https://script.google.com/macros/s/AKfycbyJ1kADVIb_hp4pvGIGbZC_6gK2tgcF2CtfnWxHNLVK4qh9RTirxY7fydgbxvzYPEoG/exec";
 
@@ -74,7 +79,7 @@
         redirect: "follow",
       })
         .then(response => {
-          console.log("Response status:", response.status); // Debug
+          console.log("Response status:", response.status);
           if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
           }
@@ -82,6 +87,10 @@
         })
         .then(data => {
           const msg = document.getElementById("responseMessage");
+          if (!msg) {
+            console.error("Error: responseMessage not found");
+            return;
+          }
           if (data.status === "success") {
             msg.style.color = "green";
             msg.textContent = "Feedback submitted successfully!";
@@ -94,8 +103,10 @@
         .catch(error => {
           console.error("Error submitting feedback:", error);
           const msg = document.getElementById("responseMessage");
-          msg.style.color = "red";
-          msg.textContent = `Error: ${error.message}`;
+          if (msg) {
+            msg.style.color = "red";
+            msg.textContent = `Error: ${error.message}`;
+          }
         });
     });
   });
