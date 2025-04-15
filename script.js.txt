@@ -1,155 +1,189 @@
-document.addEventListener("DOMContentLoaded", function () {
-  // Like button
-  document.querySelectorAll(".like-btn").forEach(button => {
-    if (!button) {
-      console.error("Like button not found");
-      return;
-    }
-    button.addEventListener("click", function () {
-      const blogId = this.getAttribute("data-blog-id");
-      if (!blogId) {
-        console.error("No data-blog-id found on like button");
-        alert("Error: Blog ID missing");
-        return;
-      }
-      console.log("Like clicked for blogId:", blogId);
-      sendToGoogleSheet("Likes", { blogId, action: "like" })
-        .then(() => {
-          const countSpan = this.querySelector(".like-count");
-          if (countSpan) {
-            countSpan.textContent = parseInt(countSpan.textContent) + 1;
-            console.log("Like count updated:", countSpan.textContent);
-          } else {
-            console.error("Like count span not found");
-          }
-        })
-        .catch(error => {
-          console.error("Like error:", error);
-          alert("Failed to record like: " + error.message);
-        });
-    });
+// Log script load
+console.log("script.js loaded at:", new Date().toISOString());
+
+function initializeButtons() {
+  const likeButtons = document.querySelectorAll(".like-btn");
+  const dislikeButtons = document.querySelectorAll(".dislike-btn");
+  const commentForms = document.querySelectorAll(".comment-form");
+  const commentToggles = document.querySelectorAll(".comment-toggle");
+
+  console.log("Initializing buttons at:", new Date().toISOString());
+  console.log("Like buttons:", likeButtons.length, Array.from(likeButtons).map(b => b.outerHTML));
+  console.log("Dislike buttons:", dislikeButtons.length, Array.from(dislikeButtons).map(b => b.outerHTML));
+  console.log("Comment forms:", commentForms.length);
+  console.log("Comment toggles:", commentToggles.length);
+
+  likeButtons.forEach((button, index) => {
+    console.log(`Attaching like button ${index}:`, button.outerHTML);
+    button.removeEventListener("click", handleLikeClick);
+    button.addEventListener("click", handleLikeClick);
   });
 
-  // Dislike button
-  document.querySelectorAll(".dislike-btn").forEach(button => {
-    if (!button) {
-      console.error("Dislike button not found");
-      return;
-    }
-    button.addEventListener("click", function () {
-      const blogId = this.getAttribute("data-blog-id");
-      if (!blogId) {
-        console.error("No data-blog-id found on dislike button");
-        alert("Error: Blog ID missing");
-        return;
-      }
-      console.log("Dislike clicked for blogId:", blogId);
-      sendToGoogleSheet("Likes", { blogId, action: "dislike" })
-        .then(() => {
-          const countSpan = this.querySelector(".dislike-count");
-          if (countSpan) {
-            countSpan.textContent = parseInt(countSpan.textContent) + 1;
-            console.log("Dislike count updated:", countSpan.textContent);
-          } else {
-            console.error("Dislike count span not found");
-          }
-        })
-        .catch(error => {
-          console.error("Dislike error:", error);
-          alert("Failed to record dislike: " + error.message);
-        });
-    });
+  dislikeButtons.forEach((button, index) => {
+    console.log(`Attaching dislike button ${index}:`, button.outerHTML);
+    button.removeEventListener("click", handleDislikeClick);
+    button.addEventListener("click", handleDislikeClick);
   });
 
-  // Comment toggle
-  document.querySelectorAll(".comment-toggle").forEach(button => {
-    if (!button) {
-      console.error("Comment toggle button not found");
-      return;
-    }
-    button.addEventListener("click", function () {
-      const commentSection = this.parentElement.querySelector(".comment-section");
-      if (commentSection) {
-        commentSection.style.display = commentSection.style.display === "none" ? "block" : "none";
-        console.log("Comment section toggled:", commentSection.style.display);
-      } else {
-        console.error("Comment section not found");
-      }
-    });
+  commentToggles.forEach((button, index) => {
+    console.log(`Attaching comment toggle ${index}`);
+    button.removeEventListener("click", handleCommentToggle);
+    button.addEventListener("click", handleCommentToggle);
   });
 
-  // Comment form submit
-  document.querySelectorAll(".comment-form").forEach(form => {
-    if (!form) {
-      console.error("Comment form not found");
-      return;
-    }
-    form.addEventListener("submit", function (e) {
-      e.preventDefault();
-      const blogId = this.querySelector(".comment-submit").getAttribute("data-blog-id");
-      const nameInput = this.querySelector(".comment-name");
-      const commentInput = this.querySelector(".comment-input");
-      if (!blogId) {
-        console.error("No data-blog-id found on comment submit");
-        alert("Error: Blog ID missing");
-        return;
-      }
-      if (!nameInput || !commentInput) {
-        console.error("Comment name or input not found");
-        alert("Error: Form fields missing");
-        return;
-      }
-      const name = nameInput.value.trim();
-      const comment = commentInput.value.trim();
-      if (!name || !comment) {
-        console.error("Name or comment is empty");
-        alert("Please enter your name and comment");
-        return;
-      }
-      console.log("Submitting comment for blogId:", blogId, "Name:", name, "Comment:", comment);
-      sendToGoogleSheet("Comments", { blogId, name, comment })
-        .then(() => {
-          nameInput.value = "";
-          commentInput.value = "";
-          alert("Comment submitted successfully!");
-          console.log("Comment submitted");
-        })
-        .catch(error => {
-          console.error("Comment error:", error);
-          alert("Failed to submit comment: " + error.message);
-        });
-    });
+  commentForms.forEach((form, index) => {
+    console.log(`Attaching comment form ${index}`);
+    form.removeEventListener("submit", handleCommentSubmit);
+    form.addEventListener("submit", handleCommentSubmit);
   });
+}
 
-  // Google Sheets integration
-  function sendToGoogleSheet(sheetType, data) {
-    const scriptURL = "/api/submit"; // Netlify proxy
-    const payload = { sheetType, ...data };
-    console.log("Sending payload:", JSON.stringify(payload));
-
-    return fetch(scriptURL, {
-      method: "POST",
-      body: JSON.stringify(payload),
-      headers: { "Content-Type": "application/json" },
-      redirect: "follow",
-    })
-      .then(response => {
-        console.log("Response status:", response.status);
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then(data => {
-        console.log("Success:", data);
-        if (data.status !== "success") {
-          throw new Error(data.message || "Server returned error");
-        }
-        return data;
-      })
-      .catch(error => {
-        console.error("Error sending to Google Sheet:", error);
-        throw error;
-      });
+function handleLikeClick() {
+  const blogId = this.getAttribute("data-blog-id");
+  console.log("Like clicked for blogId:", blogId);
+  if (!blogId) {
+    console.error("No data-blog-id on like button");
+    alert("Error: Blog ID missing");
+    return;
   }
+  sendToGoogleSheet("Likes", { blogId, action: "like" })
+    .then(() => {
+      const countSpan = this.querySelector(".like-count");
+      if (countSpan) {
+        countSpan.textContent = parseInt(countSpan.textContent) + 1;
+        console.log("Like count updated:", countSpan.textContent);
+        alert("Like recorded!");
+      } else {
+        console.error("Like count span not found");
+      }
+    })
+    .catch(error => {
+      console.error("Like error:", error);
+      alert("Failed to record like: " + error.message);
+    });
+}
+
+function handleDislikeClick() {
+  const blogId = this.getAttribute("data-blog-id");
+  console.log("Dislike clicked for blogId:", blogId);
+  if (!blogId) {
+    console.error("No data-blog-id on dislike button");
+    alert("Error: Blog ID missing");
+    return;
+  }
+  sendToGoogleSheet("Likes", { blogId, action: "dislike" })
+    .then(() => {
+      const countSpan = this.querySelector(".dislike-count");
+      if (countSpan) {
+        countSpan.textContent = parseInt(countSpan.textContent) + 1;
+        console.log("Dislike count updated:", countSpan.textContent);
+        alert("Dislike recorded!");
+      } else {
+        console.error("Dislike count span not found");
+      }
+    })
+    .catch(error => {
+      console.error("Dislike error:", error);
+      alert("Failed to record dislike: " + error.message);
+    });
+}
+
+function handleCommentToggle() {
+  const commentSection = this.parentElement.querySelector(".comment-section");
+  console.log("Comment toggle clicked");
+  if (commentSection) {
+    commentSection.style.display = commentSection.style.display === "none" ? "block" : "none";
+    console.log("Comment section toggled:", commentSection.style.display);
+  } else {
+    console.error("Comment section not found");
+  }
+}
+
+function handleCommentSubmit(e) {
+  e.preventDefault();
+  const blogId = this.querySelector(".comment-submit").getAttribute("data-blog-id");
+  const nameInput = this.querySelector(".comment-name");
+  const commentInput = this.querySelector(".comment-input");
+  console.log("Comment form submitted for blogId:", blogId);
+  if (!blogId) {
+    console.error("No data-blog-id on comment submit");
+    alert("Error: Blog ID missing");
+    return;
+  }
+  if (!nameInput || !commentInput) {
+    console.error("Comment name or input not found");
+    alert("Error: Form fields missing");
+    return;
+  }
+  const name = nameInput.value.trim();
+  const comment = commentInput.value.trim();
+  if (!name || !comment) {
+    console.error("Name or comment is empty");
+    alert("Please enter your name and comment");
+    return;
+  }
+  sendToGoogleSheet("Comments", { blogId, name, comment })
+    .then(() => {
+      nameInput.value = "";
+      commentInput.value = "";
+      console.log("Comment submitted");
+      alert("Comment submitted successfully!");
+    })
+    .catch(error => {
+      console.error("Comment error:", error);
+      alert("Failed to submit comment: " + error.message);
+    });
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+  console.log("DOMContentLoaded fired at:", new Date().toISOString());
+  initializeButtons();
+});
+
+setInterval(() => {
+  console.log("Periodic check at:", new Date().toISOString());
+  initializeButtons();
+}, 2000);
+
+const observer = new MutationObserver(() => {
+  console.log("DOM changed at:", new Date().toISOString());
+  initializeButtons();
+});
+observer.observe(document.body, { childList: true, subtree: true });
+
+function sendToGoogleSheet(sheetType, data) {
+  const scriptURL = "/api/submit";
+  console.log("Attempting fetch to:", scriptURL);
+  const payload = { sheetType, ...data };
+  console.log("Sending payload:", JSON.stringify(payload));
+
+  return fetch(scriptURL, {
+    method: "POST",
+    body: JSON.stringify(payload),
+    headers: { "Content-Type": "application/json" },
+    redirect: "follow",
+  })
+    .then(response => {
+      console.log("Fetch response status:", response.status);
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log("Fetch success:", data);
+      if (data.status !== "success") {
+        throw new Error(data.message || "Server error");
+      }
+      return data;
+    })
+    .catch(error => {
+      console.error("Fetch error:", error);
+      throw error;
+    });
+}
+
+// Log all clicks
+document.addEventListener("click", e => {
+  console.log("Click on:", e.target.outerHTML);
 });
