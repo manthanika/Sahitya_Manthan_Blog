@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Google Sheets integration
   function sendToGoogleSheet(sheetType, data) {
-    const scriptURL = "YOUR_GOOGLE_SCRIPT_URL"; // Tumhara Google Apps Script URL
+    const scriptURL = "https://script.google.com/macros/s/AKfycbzHde02e_m2uEhCmqjk1cXSHC7EyntHdRoGz8gXukSFGOONcuIjSeIqkdvYxP5SqQ6G/exec"; // Tumhara Google Apps Script URL
     fetch(scriptURL, {
       method: "POST",
       body: JSON.stringify({ sheetType, ...data }),
